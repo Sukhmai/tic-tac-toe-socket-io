@@ -1,3 +1,26 @@
 #popup {
   display: none;
 }
+
+table, th, td {
+  border: 1px solid black;
+}
+
+table {
+  width: 50%;
+}
+
+tr, th {
+  height: 200px;
+}
+
+button {
+  background-color: Transparent;
+   background-repeat:no-repeat;
+   border: none;
+   cursor:pointer;
+   overflow: hidden;
+   outline:none;
+   height: 100%;
+   width: 100%;
+}
