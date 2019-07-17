@@ -14,12 +14,16 @@ http.listen(3000, function(){
 });
 
 io.on('connection', function(socket){
-  console.log('a user connected');
+  console.log('a user connected: ' + socket.id);
   socket.on('disconnect', function(){
     console.log('user disconnected');
   });
   socket.on('clicked', function() {
-    io.emit('clicked');
+    socket.broadcast.emit('clicked');
     console.log('clicked');
+  });
+  socket.on('turn', function(square) {
+    socket.broadcast.emit('turn', square);
+    console.log('turn taken');
   });
 });
