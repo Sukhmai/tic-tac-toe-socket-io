@@ -1,30 +1,40 @@
 var socket = io();
 
-var game = [" "," "," "," "," "," "," "," "," "];
+var type = '';
 
-var turnNumber = 0;
+socket.emit('newPlayer');
 
-var players = ["X", "O"];
+socket.on('X', function() {
+  type = "X";
+  console.log(type);
+});
 
-socket.on('clicked', function() {
-  popup.style.display = "inline-block";
+socket.on('O', function() {
+  type = "O";
+  console.log(type);
+});
+
+socket.on('win', function(type) {
+  window.alert(type + " won!")
 })
 
-socket.on('turn', function(square) {
+socket.on('turn', function(square, otherType) {
   console.log(square);
   var box = document.getElementsByClassName('square')[square];
-  box.innerHTML = "X";
+  box.innerHTML = otherType;
 })
 
-var click = document.getElementById('click');
-var popup = document.getElementById('popup')
-click.onclick = function(){
-  popup.style.display = "inline-block";
-  socket.emit('clicked');
-}
+socket.on('restart', function() {
+  for (var i = 0; i < 9; i++) {
+    var box = document.getElementsByClassName('square')[i];
+    box.innerHTML = "";
+  }
+})
 
 function clickSquare(square) {
-  var box = document.getElementsByClassName('square')[square];
-  box.innerHTML = "X";
-  socket.emit('turn', square);
+  socket.emit('turn', square, type);
+}
+
+function restart() {
+  socket.emit('restart');
 }
